@@ -1,6 +1,14 @@
-import React, {useState} from 'react'
-import {useHistory} from 'react-router-dom'
+import React, {useState, useEffect} from 'react'
+import {useHistory} from 'react-router-dom';
+import Header from './Header';
 function Register() {
+    const [errors, seterror] = useState("")
+
+    useEffect(()=>{
+        if(localStorage.getItem('user-info')){
+            history.push('/add');
+        }
+    })
     const [name, setname] = useState("");
     const [email, setemail] = useState("");
     const [password, setpassword] = useState("");
@@ -21,10 +29,17 @@ function Register() {
        });
        result=await result.json();
        console.warn("result",result);
-       localStorage.setItem("user info", JSON.stringify(result));
+       let jsonuser=result;
+       if(jsonuser.name){
+       localStorage.setItem("user-info", JSON.stringify(result));
        history.push('/add')
+       }else{
+           seterror('all fields mandatory');
+       }
     }
     return (
+        <>
+            <Header />
         <div className="col-sm-6 offset-sm-3">
             <h1 style={{textAlign:'center'}}>Register</h1>
 
@@ -42,10 +57,13 @@ setemail(e.target.value);
 setpassword(e.target.value);
             }}  value={password} type="password" className="form-control"/>
             <br/>
+{errors?
+           <><span style={{color:'red'}}>{errors}</span><br /> <br /></>:null}
 
             <button onClick={Signup} className="btn btn-primary">Sign Up</button>
            
         </div>
+        </>
     )
 }
 

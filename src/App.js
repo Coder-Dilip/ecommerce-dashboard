@@ -9,30 +9,55 @@ import Login from './Login'
 import Register from './Register';
 import UpdateProduct from './UpdateProduct';
 import AddProduct from './AddProduct';
+
+import Protected from './Protected'
+import Logout from './Logout';
 function App() {
   return (
     <div className="App">
         <BrowserRouter >
-     <Header />
-     
+        <Route exact path='/'>
+    
+    <>
+    <Header />
+    </>
+  </Route>
      
      <Route path='/login'>
+     
        <Login/>
      </Route>
 
      <Route path='/register'>
+    
        <Register />
      </Route>
 
      <Route path='/add'>
-       <AddProduct />
+   <>
+       <Protected Cmp={AddProduct} />
+       </>
      </Route>
 
      <Route path='/update'>
-       <UpdateProduct />
-     </Route>
-     
     
+     <Protected Cmp={UpdateProduct} />
+     </Route>
+     <Route path='/username'>
+    
+       <>
+       <Header />
+       </>
+     </Route>
+     <Route path='/logout'>
+    
+       <>
+       <Logout />
+       </>
+     </Route>
+    
+     
+     
      </BrowserRouter>
      
      
